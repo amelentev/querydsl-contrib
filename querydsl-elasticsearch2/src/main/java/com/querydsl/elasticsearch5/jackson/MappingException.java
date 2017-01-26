@@ -1,4 +1,4 @@
-package com.querydsl.elasticsearch2.jackson;
+package com.querydsl.elasticsearch5.jackson;
 
 /**
  * Mapping exception for factory purposes.

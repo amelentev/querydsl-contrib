@@ -9,8 +9,8 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>querydsl-elasticsearch2</artifactId>
-  <name>Querydsl - Elasticsearch support 2.x</name>
+  <artifactId>querydsl-elasticsearch5</artifactId>
+  <name>Querydsl - Elasticsearch support 5.x</name>
   <description>Elasticsearch support for Querydsl</description>
   <packaging>jar</packaging>
   <url>${project.homepage}</url>
@@ -22,7 +22,7 @@
   </scm>
 
   <properties>
-    <elasticsearch.version>2.2.2</elasticsearch.version>
+    <elasticsearch.version>5.1.2</elasticsearch.version>
     <jackson.version>2.6.5</jackson.version>
     <osgi.import.package>
       org.elasticsearch.*;version="0.0.0",

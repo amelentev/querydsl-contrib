@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.querydsl.elasticsearch2;
+package com.querydsl.elasticsearch5;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,25 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import com.google.common.base.Function;
 import com.mysema.commons.lang.CloseableIterator;
 import com.mysema.commons.lang.IteratorAdapter;
-import com.querydsl.core.*;
+import com.querydsl.core.DefaultQueryMetadata;
+import com.querydsl.core.Fetchable;
+import com.querydsl.core.NonUniqueResultException;
+import com.querydsl.core.QueryMetadata;
+import com.querydsl.core.QueryModifiers;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.SimpleQuery;
 import com.querydsl.core.support.QueryMixin;
-import com.querydsl.core.types.*;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.FactoryExpression;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.ParamExpression;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
 
 /**
  * ElasticsearchQuery provides a general Querydsl query implementation with a pluggable String to Bean transformation
@@ -152,7 +164,12 @@ public abstract class ElasticsearchQuery<K> implements SimpleQuery<Elasticsearch
     @Override
     public long fetchCount() {
         Predicate filter = createFilter(queryMixin.getMetadata());
-        return client.prepareCount().setQuery(createQuery(filter)).execute().actionGet().getCount();
+        return client.prepareSearch(getIndex())
+                     .setTypes(getType())
+                     .setSource(new SearchSourceBuilder().size(0).query(createQuery(filter)))
+                     .get()
+                     .getHits()
+                     .getTotalHits();
     }
 
     @Override
@@ -210,8 +227,8 @@ public abstract class ElasticsearchQuery<K> implements SimpleQuery<Elasticsearch
                 metadata.getOrderBy());
     }
 
-    private SearchResponse executeSearch(String index, String type, Predicate filter,
-            Expression<?> projection, QueryModifiers modifiers, List<OrderSpecifier<?>> orderBys) {
+    private SearchResponse executeSearch(String index, String type, Predicate filter, Expression<?> projection,
+            QueryModifiers modifiers, List<OrderSpecifier<?>> orderBys) {
         SearchRequestBuilder requestBuilder = client.prepareSearch(index).setTypes(type);
 
         // Set query

@@ -1,4 +1,4 @@
-package com.querydsl.elasticsearch2.domain;
+package com.querydsl.elasticsearch5.domain;
 
 import com.google.common.base.Objects;
 import com.querydsl.core.annotations.QuerySupertype;

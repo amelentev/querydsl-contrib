@@ -1,4 +1,4 @@
-package com.querydsl.elasticsearch2.jackson;
+package com.querydsl.elasticsearch5.jackson;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -10,8 +10,8 @@ import org.elasticsearch.search.SearchHit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
-import com.querydsl.elasticsearch2.ElasticsearchQuery;
-import com.querydsl.elasticsearch2.ElasticsearchSerializer;
+import com.querydsl.elasticsearch5.ElasticsearchQuery;
+import com.querydsl.elasticsearch5.ElasticsearchSerializer;
 
 /**
  * JacksonElasticsearchQueries is a factory to provide ElasticsearchQuery basic implementation.

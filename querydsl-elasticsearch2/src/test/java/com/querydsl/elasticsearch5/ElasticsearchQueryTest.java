@@ -1,4 +1,4 @@
-package com.querydsl.elasticsearch2;
+package com.querydsl.elasticsearch5;
 
 import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertEquals;
@@ -30,9 +30,9 @@ import com.querydsl.core.NonUniqueResultException;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.elasticsearch2.domain.QUser;
-import com.querydsl.elasticsearch2.domain.User;
-import com.querydsl.elasticsearch2.jackson.JacksonElasticsearchQueries;
+import com.querydsl.elasticsearch5.domain.QUser;
+import com.querydsl.elasticsearch5.domain.User;
+import com.querydsl.elasticsearch5.jackson.JacksonElasticsearchQueries;
 
 public class ElasticsearchQueryTest {
 

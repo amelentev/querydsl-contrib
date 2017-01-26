@@ -1,4 +1,4 @@
-package com.querydsl.elasticsearch2.domain;
+package com.querydsl.elasticsearch5.domain;
 
 import java.util.Date;
 

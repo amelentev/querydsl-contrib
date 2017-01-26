@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.querydsl.contrib</groupId>
   <artifactId>querydsl-contrib</artifactId>
-  <version>4.0.9.BUILD-SNAPSHOT</version>
+  <version>4.1.5.BUILD-SNAPSHOT</version>
   <name>Querydsl Contrib</name>
   <description>parent project for Querydsl Contrib modules</description>
   <url>${project.homepage}</url>
@@ -12,7 +12,7 @@
   <parent>
     <groupId>com.querydsl</groupId>
     <artifactId>querydsl-root</artifactId>
-    <version>4.0.8</version>
+    <version>4.1.5.BUILD-SNAPSHOT</version>
   </parent>
 
   <packaging>pom</packaging>
@@ -52,6 +52,7 @@
     <module>querydsl-hazelcast</module>
     <module>querydsl-elasticsearch</module>
     <module>querydsl-elasticsearch2</module>
+    <module>querydsl-elasticsearch5</module>
   </modules>
 
   <dependencies>
