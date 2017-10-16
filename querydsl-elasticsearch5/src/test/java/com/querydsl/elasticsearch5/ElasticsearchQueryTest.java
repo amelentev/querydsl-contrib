@@ -6,6 +6,9 @@ import static junit.framework.Assert.assertNotNull;
 import static org.elasticsearch.client.Requests.refreshRequest;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -17,8 +20,9 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.json.JsonXContent;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,17 +55,20 @@ public class ElasticsearchQueryTest {
     }
 
     @BeforeClass
-    public static void beforeClass() {
+    public static void beforeClass() throws UnknownHostException {
+        /*
         Settings.Builder settings = Settings.builder()
                 .put("path.data", "target/elasticsearchTestData")
                 .put("path.home", "src/test/resources/test-home-dir");
         Node node = NodeBuilder.nodeBuilder().local(true).settings(settings).node();
         client = node.client();
-
+        */
+        client = new PreBuiltTransportClient(Settings.builder().build())
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
     }
 
     @Before
-    public void before() {
+    public void before() throws IOException {
         deleteType(indexUser);
         createIndex(indexUser);
 
@@ -287,12 +294,26 @@ public class ElasticsearchQueryTest {
         return client.admin().indices().exists(Requests.indicesExistsRequest(index)).actionGet().isExists();
     }
 
-    public boolean createIndex(String index) {
+    public boolean createIndex(String index) throws IOException {
         if (indexExists(index)) {
             return true;
         }
 
         CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(index);
+        createIndexRequestBuilder.addMapping(typeUser, JsonXContent.contentBuilder()
+                .startObject()
+                    .startObject("properties")
+                        .startObject("firstName")
+                            .field("type", "text")
+                            .field("fielddata", true)
+                        .endObject()
+                        .startObject("lastName")
+                            .field("type", "text")
+                            .field("fielddata", true)
+                        .endObject()
+                    .endObject()
+                .endObject()
+        );
         return createIndexRequestBuilder.execute().actionGet().isAcknowledged();
     }
 

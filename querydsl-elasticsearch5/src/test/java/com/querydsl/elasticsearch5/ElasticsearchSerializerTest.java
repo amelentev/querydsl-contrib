@@ -108,7 +108,7 @@ public class ElasticsearchSerializerTest {
         assertQuery(and(eq("date", dateVal)), date.eq(dateVal));
         assertQuery(and(eq("dateTime", dateTimeVal)), dateTime.eq(dateTimeVal));
 
-        assertQuery(and(idsQuery().ids("id1")), id.eq("id1"));
+        assertQuery(and(idsQuery().addIds("id1")), id.eq("id1"));
     }
 
     @Test

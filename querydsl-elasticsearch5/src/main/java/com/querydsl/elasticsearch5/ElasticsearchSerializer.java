@@ -89,7 +89,7 @@ public class ElasticsearchSerializer implements Visitor<Object, BoolQueryBuilder
             Expression<?> keyArg = expr.getArg(0);
             String value = StringUtils.toString(asDBValue(expr, 1));
             if (keyArg instanceof Path<?> && isIdPath((Path<?>) expr.getArg(0))) {
-                return QueryBuilders.idsQuery().ids(value);
+                return QueryBuilders.idsQuery().addIds(value);
             } else {
                 // Currently all queries are made with ignore case sensitive
                 // Because the query to get exact value have to be run on a not_analyzed field
